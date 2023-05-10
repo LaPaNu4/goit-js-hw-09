@@ -2,6 +2,8 @@ import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 const dataInt = document.querySelector('input#datetime-picker');
 const btnStart = document.querySelector('[data-start]');
+const btnReset = document.querySelector('[data-reset]');
+
 const timerDays = document.querySelector('[data-days]');
 const timerHours = document.querySelector('[data-hours]');
 const timerMinutes = document.querySelector('[data-minutes]');
@@ -11,6 +13,7 @@ btnStart.disabled = true;
 let select = 0;
 let nowDate = 0;
 let convert = 0;
+let timer = 0;
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -48,18 +51,25 @@ function convertMs(ms) {
   // console.log(days, hours, minutes, second);
   return { total, days, hours, minutes, seconds };
 }
-btnStart.addEventListener('click', () => {
-  const timer = setInterval(() => {
+btnStart.addEventListener('click', timerStart);
+
+btnReset.addEventListener('click', () => {
+  clearInterval(timer);
+  dataInt.disabled = false;
+});
+function timerStart() {
+  timer = setInterval(() => {
     nowDate = new Date().getTime();
     convert = convertMs(select - nowDate);
     attachToEl();
+    dataInt.disabled = true;
     console.log(convert);
     if (convert.total <= 1000) {
       clearInterval(timer);
+      dataInt.disabled = false;
     }
   }, 1000);
-});
-
+}
 function attachToEl() {
   timerDays.textContent = addLeadingZero(convert.days);
   timerHours.textContent = addLeadingZero(convert.hours);

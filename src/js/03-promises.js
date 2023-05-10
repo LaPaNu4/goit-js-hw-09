@@ -1,4 +1,3 @@
-
 const form = document.querySelector('.form');
 
 form.addEventListener('submit', event => {
@@ -7,7 +6,10 @@ form.addEventListener('submit', event => {
   const delay = parseInt(form.delay.value);
   const step = parseInt(form.step.value);
   const amount = parseInt(form.amount.value);
-
+  if (delay <= 0 || step <= 0 || amount <= 0) {
+    alert('Please fill corect number');
+    return;
+  }
   for (let i = 1; i <= amount; i++) {
     const position = i;
     const promiseDelay = delay + (i - 1) * step;
@@ -21,7 +23,6 @@ form.addEventListener('submit', event => {
       });
   }
 });
-
 
 function createPromise(position, delay) {
   return new Promise((resolve, reject) => {
