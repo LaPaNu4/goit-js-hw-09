@@ -56,6 +56,10 @@ btnStart.addEventListener('click', timerStart);
 btnReset.addEventListener('click', () => {
   clearInterval(timer);
   dataInt.disabled = false;
+  timerDays.textContent = '00';
+  timerHours.textContent = '00';
+  timerMinutes.textContent = '00';
+  timerSeconds.textContent = '00';
 });
 function timerStart() {
   timer = setInterval(() => {
